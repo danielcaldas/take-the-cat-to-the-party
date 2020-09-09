@@ -17,7 +17,7 @@
       repeat,
       mapTo,
       delay,
-      switchMapTo,
+      switchMap,
       withLatestFrom,
       take,
       last
@@ -25,7 +25,7 @@
     const {
       fromEvent,
       merge,
-      timer
+      timer,
     } = window.rxjs;
 
     // please ignore this code for now this is preventing the default event on dragover
@@ -52,26 +52,6 @@
     const loading = document.getElementById("loader");
     const countdown = document.getElementById("countdown");
 
-    // auxiliary functions, they mostly abstract simple manipulations to our DOM elements
-    const catEntersTheParty = () => {
-      cat.remove();
-      party.appendChild(cat);
-    };
-    const announceCatArrival = () => {
-      window.alert("Cat is at the party! You win!");
-      window.location.reload();
-    };
-    const toggleGIFVisibility = v => loading.style.setProperty("display", v);
-    const setCatOpacity = v => cat.style.opacity = v;
-    const announceCatDidNotMakeIt = () => {
-      window.alert("Cat didn't make it! You lose!");
-      window.location.reload();
-    };
-    const isCatOutOfTime = secondsLeft => secondsLeft === 0;
-    const tickCountdown = secondsLeft => {
-      countdown.innerText = `${secondsLeft}`;
-    };
-
     // common streams
     const ds$ = fromEvent(document, "dragstart");
     const de$ = fromEvent(document, "dragend");
@@ -85,46 +65,67 @@
     const catAtParty$ = partyDrop$.pipe(
       withLatestFrom(ds$),
       filter(([, ds]) => ds.target === cat),
-      mapTo(true)
     );
-    catAtParty$.subscribe(catEntersTheParty);
+    catAtParty$.subscribe(() => {
+      cat.remove();
+      party.appendChild(cat);
+    });
     const catDragStart$ = ds$.pipe(filter(e => e.target === cat));
     const catDragEnd$ = de$.pipe(filter(e => e.target === cat));
-    catDragStart$.subscribe(() => setCatOpacity(0));
-    catDragEnd$.subscribe(() => setCatOpacity(1));
+    catDragStart$.subscribe((event) => {
+      cat.style.opacity = 0;
+    });
+    catDragEnd$.subscribe(() => {
+      cat.style.opacity = 1;
+    });
 
     // LEVEL 2
-    // 2. We should announce the cats arrival with an alert.
+    // 2. We should announce the cats' arrival with an alert.
     // 2.1 Allow cat to enter the party before announcing it
-    catAtParty$.pipe(delay(500)).subscribe(announceCatArrival);
+    catAtParty$.pipe(
+      delay(500),
+    ).subscribe(() => {
+      window.alert("Cat is at the party! You win!");
+      window.location.reload();
+    });
 
     // LEVEL 3
-    // 3. We want to display a GIF while cat is moving.
+    // 3. We want to display a GIF while the cat is moving.
     const display$ = merge(
-      catDragStart$.pipe(mapTo("")),
-      catDragEnd$.pipe(mapTo("none"))
+      catDragStart$.pipe(map((event) => "")),
+      catDragEnd$.pipe(map((event) => "none"))
     );
-    display$.subscribe(toggleGIFVisibility);
+    display$.subscribe(v => loading.style.setProperty("display", v));
 
     // LEVEL 4
     // 4. The cat needs to make it to the party in less than 5 seconds!
-    // he only has 5 seconds of gas in his bike.
+    // The cat only has 5 seconds of gas in his bike.
     // 4.1 🤔 Hmm... We still see the alert but we are not dragging the cat?
     // 4.2 🤔 Hmm... something is wrong with the countdown?
-    const LIMIT = 5;
     const cancelCountdown$ = merge(catDragEnd$, catAtParty$);
     const countdown$ = timer(0, 1000).pipe(
-      map(i => LIMIT - i),
-      take(LIMIT + 1),
+      map(t => 5 - t),
+      take(5 + 1), // emit one more 5+1 seconds so that we get to 0
       takeUntil(cancelCountdown$)
     );
-    const countdownRunning$ = catDragStart$.pipe(switchMapTo(countdown$));
-    countdownRunning$.subscribe(tickCountdown);
+    const countdownRunning$ = catDragStart$.pipe(switchMap(() => countdown$));
+    countdownRunning$.subscribe(secondsLeft => {
+      countdown.innerText = `${secondsLeft}`;
+    });
+    // TODO: REMOVE THE DELAYS
+    // TODO: MAKE THIS HAPPEN IN THE SUBSCRIBE BLOCK!!!!!!!!!
     countdownRunning$
       .pipe(
-        filter(isCatOutOfTime),
+        // filter(secondsLeft => secondsLeft === 0),
         delay(100)
-      )
-      .subscribe(announceCatDidNotMakeIt);
+      ).subscribe({
+        next: (v) => {
+          console.log('next', v);
+        },
+        complete: () => {
+          window.alert("Cat didn't make it! You lose!");
+          window.location.reload();
+        },
+      });
   </script>
 </body>

@@ -1,0 +1,5 @@
+marble level4_2
+{
+    source catDragStart$: +-(ds)->
+    operator "switchMap(() => countdown$)": +-5-4-3-2-1-0-|
+}
