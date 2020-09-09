@@ -1,0 +1,6 @@
+marble level4_3
+{
+  source catDragEnd$: +-(de)-->
+  source catAtParty$: +-(true)-->
+  operator merge: +-(de)-(true)-->
+}

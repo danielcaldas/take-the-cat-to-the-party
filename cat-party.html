@@ -83,7 +83,7 @@
     // 2. We should announce the cats' arrival with an alert.
     // 2.1 Allow cat to enter the party before announcing it
     catAtParty$.pipe(
-      delay(500),
+      delay(100),
     ).subscribe(() => {
       window.alert("Cat is at the party! You win!");
       window.location.reload();
@@ -104,28 +104,21 @@
     // 4.2 🤔 Hmm... something is wrong with the countdown?
     const cancelCountdown$ = merge(catDragEnd$, catAtParty$);
     const countdown$ = timer(0, 1000).pipe(
-      map(t => 5 - t),
-      take(5 + 1), // emit one more 5+1 seconds so that we get to 0
+      map(t => 2 - t),
+      take(2 + 1), // emit one more 5+1 seconds so that we get to 0
       takeUntil(cancelCountdown$)
     );
     const countdownRunning$ = catDragStart$.pipe(switchMap(() => countdown$));
     countdownRunning$.subscribe(secondsLeft => {
       countdown.innerText = `${secondsLeft}`;
     });
-    // TODO: REMOVE THE DELAYS
-    // TODO: MAKE THIS HAPPEN IN THE SUBSCRIBE BLOCK!!!!!!!!!
     countdownRunning$
       .pipe(
-        // filter(secondsLeft => secondsLeft === 0),
-        delay(100)
-      ).subscribe({
-        next: (v) => {
-          console.log('next', v);
-        },
-        complete: () => {
-          window.alert("Cat didn't make it! You lose!");
-          window.location.reload();
-        },
+        filter(secondsLeft => secondsLeft === 0),
+        delay(100),
+      ).subscribe(() => {
+        window.alert("Cat didn't make it! You lose!");
+        window.location.reload();
       });
   </script>
 </body>
