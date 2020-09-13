@@ -9,18 +9,18 @@
   <div id="app"></div>
   <script>
     const {
-      map,
-      filter,
-      takeWhile,
-      takeUntil,
-      tap,
-      repeat,
-      mapTo,
       delay,
+      filter,
+      last,
+      map,
+      mapTo,
+      repeat,
       switchMap,
-      withLatestFrom,
       take,
-      last
+      takeUntil,
+      takeWhile,
+      tap,
+      withLatestFrom,
     } = window.rxjs.operators;
     const {
       fromEvent,
@@ -28,12 +28,13 @@
       timer,
     } = window.rxjs;
 
-    // please ignore this code for now this is preventing the default event on dragover
-    // so that we're allow to drop an element
+    // preventing the default event on dragover
+    // so that we're allowed to drop an element
     fromEvent(document, "dragover")
-      .pipe(tap(e => e.preventDefault()))
+      .pipe(tap(event => event.preventDefault()))
       .subscribe();
-    // our markup
+
+    // all the game markup goes here
     document.getElementById("app").innerHTML = `
       <h2>Take the 🐈 to the 🎉</h2>
       <div id="loader" style="display:none;position:absolute;right:0;z-index:-1;">
@@ -46,6 +47,7 @@
       <img id="cat" draggable="true" src="https://image.shutterstock.com/image-vector/vintage-scooter-cat-cool-stuff-260nw-429646657.jpg" width="100" height="100" style="position:absolute;z-index:1;margin:18px 16px;text-align:center;cursor:grab;"/>
       <div id="decoy" draggable="true" style="font-size:28px;position:absolute;left:20px;bottom:10px;text-align:center;cursor:grab;font-weight:bold;">DECOY</div>
     `;
+
     // our DOM elements
     const cat = document.getElementById("cat");
     const party = document.getElementById("drop-zone");
@@ -53,35 +55,40 @@
     const countdown = document.getElementById("countdown");
 
     // common streams
-    const ds$ = fromEvent(document, "dragstart");
-    const de$ = fromEvent(document, "dragend");
+    const dragstart$ = fromEvent(document, "dragstart");
+    const dragend$ = fromEvent(document, "dragend");
     const drop$ = fromEvent(document, "drop");
 
     // LEVEL 1
-    // 1. We should be able to take the cat to the party with drag&drop.
-    // 1.1. Place the cat inside the party together with other cats
-    // 1.2. We also want to hide the original cat element when we're dragging it to the party
-    const partyDrop$ = drop$.pipe(filter(e => e.target === party));
-    const catAtParty$ = partyDrop$.pipe(
-      withLatestFrom(ds$),
-      filter(([, ds]) => ds.target === cat),
+    const partyDrop$ = drop$.pipe(
+      filter((event) => event.target === party)
     );
-    catAtParty$.subscribe(() => {
+    const catAtParty$ = partyDrop$.pipe(
+      withLatestFrom(dragstart$),
+      filter(([dropEvent, dragStartEvent]) => dragStartEvent.target === cat)
+    );
+    catAtParty$.subscribe(([partyDropEvent, dragStartEvent]) => {
+      // console.log({ partyDropEvent, dragStartEvent });
+      // console.log({ partyDropEvent: partyDropEvent.type, dragStartEvent: dragStartEvent.type });
       cat.remove();
       party.appendChild(cat);
     });
-    const catDragStart$ = ds$.pipe(filter(e => e.target === cat));
-    const catDragEnd$ = de$.pipe(filter(e => e.target === cat));
-    catDragStart$.subscribe((event) => {
-      cat.style.opacity = 0;
-    });
-    catDragEnd$.subscribe(() => {
-      cat.style.opacity = 1;
+
+    const catDragStart$ = dragstart$.pipe(
+      filter(event => event.target === cat)
+    );
+    const catDragEnd$ = dragend$.pipe(
+      filter(event => event.target === cat)
+    );
+    const opacity$ = merge(
+      catDragStart$.pipe(mapTo(0)),
+      catDragEnd$.pipe(mapTo(1))
+    );
+    opacity$.subscribe((value) => {
+      cat.style.opacity = value;
     });
 
     // LEVEL 2
-    // 2. We should announce the cats' arrival with an alert.
-    // 2.1 Allow cat to enter the party before announcing it
     catAtParty$.pipe(
       delay(100),
     ).subscribe(() => {
@@ -90,12 +97,11 @@
     });
 
     // LEVEL 3
-    // 3. We want to display a GIF while the cat is moving.
     const display$ = merge(
       catDragStart$.pipe(map((event) => "")),
       catDragEnd$.pipe(map((event) => "none"))
     );
-    display$.subscribe(v => loading.style.setProperty("display", v));
+    display$.subscribe(value => loading.style.setProperty("display", value));
 
     // LEVEL 4
     // 4. The cat needs to make it to the party in less than 5 seconds!
@@ -104,8 +110,8 @@
     // 4.2 🤔 Hmm... something is wrong with the countdown?
     const cancelCountdown$ = merge(catDragEnd$, catAtParty$);
     const countdown$ = timer(0, 1000).pipe(
-      map(t => 2 - t),
-      take(2 + 1), // emit one more 5+1 seconds so that we get to 0
+      map(t => 5 - t),
+      take(5 + 1), // emit one more 5+1 seconds so that we get to 0
       takeUntil(cancelCountdown$)
     );
     const countdownRunning$ = catDragStart$.pipe(switchMap(() => countdown$));

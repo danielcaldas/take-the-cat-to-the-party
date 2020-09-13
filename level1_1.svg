@@ -8,8 +8,8 @@
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="450.0px"
-   height="80.0px"
-   viewBox="0 0 450.0 80.0 "
+   height="260.0px"
+   viewBox="0 0 450.0 260.0 "
    id="svg2"
    version="1.1"
    inkscape:version="0.91 r13725"
@@ -68,7 +68,7 @@
     </marker>    
 
   </defs>
-    <g id="source_bb4a14f072b48a8cc641f6c58343edee" transform="rotate(0 0.0 30) translate(0.0,30)">
+    <g id="source_24f41ac704bf6475c38fe983434a3b17" transform="rotate(0 0.0 30) translate(0.0,30)">
   <path 
      style="fill:none;fill-rule:evenodd;stroke:#003080;stroke-width:2px;marker-end:url(#Arrow1Lend)"
      d="m 0,0 447.0,0"
@@ -84,7 +84,7 @@
      y="7"
      x="75.0"
      style="font-size:20px;font-family:sans-serif;text-align:center;text-anchor:middle;fill:#000000;"
-     xml:space="preserve">e</text>
+     xml:space="preserve">e1</text>
 </g>
 
 <g style="filter:url(#filter3443)">
@@ -92,12 +92,12 @@
      r="22"
      cy="0"
      cx="175.0"
-     style="opacity:1;fill:#ffcc00;fill-opacity:1;stroke:#003080;stroke-width:1px;" />
+     style="opacity:1;fill:#48b3cd;fill-opacity:1;stroke:#003080;stroke-width:1px;" />
   <text
      y="7"
      x="175.0"
      style="font-size:20px;font-family:sans-serif;text-align:center;text-anchor:middle;fill:#000000;"
-     xml:space="preserve">e</text>
+     xml:space="preserve">e2</text>
 </g>
 
 <g style="filter:url(#filter3443)">
@@ -105,12 +105,44 @@
      r="22"
      cy="0"
      cx="275.0"
-     style="opacity:1;fill:#ffcc00;fill-opacity:1;stroke:#003080;stroke-width:1px;" />
+     style="opacity:1;fill:#ffaacc;fill-opacity:1;stroke:#003080;stroke-width:1px;" />
   <text
      y="7"
      x="275.0"
      style="font-size:20px;font-family:sans-serif;text-align:center;text-anchor:middle;fill:#000000;"
-     xml:space="preserve">e</text>
+     xml:space="preserve">e3</text>
 </g>
+</g><g transform="translate(0 90.0)">
+<g style="filter:url(#filter3443)">
+  <rect
+     x="2"
+     y="0"
+     width="446.0"
+     height="80"
+     style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1px;" />
+      <text
+         x="225.0"
+         y="40.0"
+         style="font-size:22px;font-family:sans-serif;text-align:center;text-anchor:middle;fill:#000000;"
+         xml:space="preserve">filter(event =&gt; event.target === party)</text>
+    </g>
+<g id="operator_eb326b440da85ce8b79ea5c0e092fa33" transform="rotate(0 0.0 120) translate(0.0,120)">
+  <path 
+     style="fill:none;fill-rule:evenodd;stroke:#003080;stroke-width:2px;marker-end:url(#Arrow1Lend)"
+     d="m 0,0 447.0,0"
+     inkscape:connector-curvature="0" />
+
+<g style="filter:url(#filter3443)">
+  <circle
+     r="22"
+     cy="0"
+     cx="275.0"
+     style="opacity:1;fill:#ffaacc;fill-opacity:1;stroke:#003080;stroke-width:1px;" />
+  <text
+     y="7"
+     x="275.0"
+     style="font-size:20px;font-family:sans-serif;text-align:center;text-anchor:middle;fill:#000000;"
+     xml:space="preserve">e3</text>
 </g>
+</g></g>
  </svg>

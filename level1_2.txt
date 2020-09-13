@@ -1,0 +1,7 @@
+marble level1_2
+{
+  source partyDrop$: +-----(de)->
+  source dragstart$: +-(e1)-(e2)-(e3)->
+  operator "withLatestFrom(dragstart$)": +-----(e3de)->
+  operator "filter(([, event]) => event.target === cat)": +-----(e3de)->
+}

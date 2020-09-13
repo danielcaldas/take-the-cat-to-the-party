@@ -1,0 +1,5 @@
+marble level1_1
+{
+  source drop$: +-(e1)-(e2)-(e3)->
+  operator "filter(event => event.target === party)": +-----(e3)->
+}
