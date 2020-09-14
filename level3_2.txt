@@ -1,5 +1,5 @@
-marble level3_1
+marble level3_2
 {
     source catDragStart$: +-(ds)-------(ds)->
-    operator mapTo: +-("")-------("")->
+    operator "map((event) => '')": +-("")-------("")->
 }}

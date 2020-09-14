@@ -7,9 +7,9 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="750.0px"
-   height="160.0px"
-   viewBox="0 0 750.0 160.0 "
+   width="650.0px"
+   height="260.0px"
+   viewBox="0 0 650.0 260.0 "
    id="svg2"
    version="1.1"
    inkscape:version="0.91 r13725"
@@ -68,7 +68,7 @@
     </marker>    
 
   </defs>
-    <g id="source_939575f5fb783c494a9836f446270b69" transform="rotate(0 0.0 30) translate(0.0,30)">
+    <g id="source_0ded4a7fd387ecebbe3c9a5cb925bef0" transform="rotate(0 0.0 30) translate(0.0,30)">
   <path 
      style="fill:none;fill-rule:evenodd;stroke:#003080;stroke-width:2px;marker-end:url(#Arrow1Lend)"
      d="m 0,0 647.0,0"
@@ -84,7 +84,7 @@
      y="7"
      x="75.0"
      style="font-size:20px;font-family:sans-serif;text-align:center;text-anchor:middle;fill:#000000;"
-     xml:space="preserve">ds</text>
+     xml:space="preserve">de</text>
 </g>
 
 <g style="filter:url(#filter3443)">
@@ -97,38 +97,52 @@
      y="7"
      x="475.0"
      style="font-size:20px;font-family:sans-serif;text-align:center;text-anchor:middle;fill:#000000;"
-     xml:space="preserve">ds</text>
+     xml:space="preserve">de</text>
 </g>
-</g><g id="source_0ded4a7fd387ecebbe3c9a5cb925bef0" transform="rotate(0 0.0 110.0) translate(0.0,110.0)">
+</g><g transform="translate(0 90.0)">
+<g style="filter:url(#filter3443)">
+  <rect
+     x="2"
+     y="0"
+     width="646.0"
+     height="80"
+     style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1px;" />
+      <text
+         x="325.0"
+         y="40.0"
+         style="font-size:22px;font-family:sans-serif;text-align:center;text-anchor:middle;fill:#000000;"
+         xml:space="preserve">map((event) =&gt; &#x27;none&#x27;)</text>
+    </g>
+<g id="operator_be8249d3cdeeff2352f9a2e778479370" transform="rotate(0 0.0 120) translate(0.0,120)">
   <path 
      style="fill:none;fill-rule:evenodd;stroke:#003080;stroke-width:2px;marker-end:url(#Arrow1Lend)"
-     d="m 0,0 747.0,0"
+     d="m 0,0 647.0,0"
      inkscape:connector-curvature="0" />
 
 <g style="filter:url(#filter3443)">
   <circle
      r="22"
      cy="0"
-     cx="125.0"
+     cx="75.0"
      style="opacity:1;fill:#48b3cd;fill-opacity:1;stroke:#003080;stroke-width:1px;" />
   <text
      y="7"
-     x="125.0"
+     x="75.0"
      style="font-size:20px;font-family:sans-serif;text-align:center;text-anchor:middle;fill:#000000;"
-     xml:space="preserve">de</text>
+     xml:space="preserve">""</text>
 </g>
 
 <g style="filter:url(#filter3443)">
   <circle
      r="22"
      cy="0"
-     cx="575.0"
+     cx="475.0"
      style="opacity:1;fill:#48b3cd;fill-opacity:1;stroke:#003080;stroke-width:1px;" />
   <text
      y="7"
-     x="575.0"
+     x="475.0"
      style="font-size:20px;font-family:sans-serif;text-align:center;text-anchor:middle;fill:#000000;"
-     xml:space="preserve">de</text>
+     xml:space="preserve">""</text>
 </g>
-</g>
+</g></g>
  </svg>

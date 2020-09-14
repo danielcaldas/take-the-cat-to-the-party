@@ -97,9 +97,11 @@
     });
 
     // LEVEL 3
+    const catDragStartDisplay$ = catDragStart$.pipe(map((event) => ""));
+    const catDragEndDisplay$ = catDragEnd$.pipe(map((event) => "none"));
     const display$ = merge(
-      catDragStart$.pipe(map((event) => "")),
-      catDragEnd$.pipe(map((event) => "none"))
+      catDragStartDisplay$,
+      catDragEndDisplay$,
     );
     display$.subscribe(value => loading.style.setProperty("display", value));
 
@@ -111,20 +113,24 @@
     const cancelCountdown$ = merge(catDragEnd$, catAtParty$);
     const countdown$ = timer(0, 1000).pipe(
       map(t => 5 - t),
-      take(5 + 1), // emit one more 5+1 seconds so that we get to 0
+      take(5 + 1), // emit one more (5+1) seconds so that we get to 0
       takeUntil(cancelCountdown$)
     );
-    const countdownRunning$ = catDragStart$.pipe(switchMap(() => countdown$));
+    const countdownRunning$ = catDragStart$.pipe(switchMap((event) => countdown$));
     countdownRunning$.subscribe(secondsLeft => {
       countdown.innerText = `${secondsLeft}`;
     });
     countdownRunning$
       .pipe(
-        filter(secondsLeft => secondsLeft === 0),
+        // filter(secondsLeft => secondsLeft === 0),
         delay(100),
-      ).subscribe(() => {
-        window.alert("Cat didn't make it! You lose!");
-        window.location.reload();
+      ).subscribe({
+        next: (s) => {
+          console.log(s);
+          // window.alert("Cat didn't make it! You lose!");
+          // window.location.reload();
+        },
+        complete: () => console.log('complete!'),
       });
   </script>
 </body>

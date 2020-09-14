@@ -1,0 +1,6 @@
+marble level3_4
+{
+    source catDragStartDisplay$: +-("")------("")--->
+    source catDragEndDisplay$: +---(none)------(none)->
+    operator "merge(catDragStartDisplay$, catDragEndDisplay$)": +-("")-(none)----("")-(none)->
+}}
