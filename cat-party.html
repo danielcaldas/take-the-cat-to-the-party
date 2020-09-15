@@ -11,14 +11,11 @@
     const {
       delay,
       filter,
-      last,
       map,
       mapTo,
-      repeat,
       switchMap,
       take,
       takeUntil,
-      takeWhile,
       tap,
       withLatestFrom,
     } = window.rxjs.operators;
@@ -97,8 +94,8 @@
     });
 
     // LEVEL 3
-    const catDragStartDisplay$ = catDragStart$.pipe(map((event) => ""));
-    const catDragEndDisplay$ = catDragEnd$.pipe(map((event) => "none"));
+    const catDragStartDisplay$ = catDragStart$.pipe(mapTo(""));
+    const catDragEndDisplay$ = catDragEnd$.pipe(mapTo("none"));
     const display$ = merge(
       catDragStartDisplay$,
       catDragEndDisplay$,
@@ -122,15 +119,11 @@
     });
     countdownRunning$
       .pipe(
-        // filter(secondsLeft => secondsLeft === 0),
+        filter(secondsLeft => secondsLeft === 0),
         delay(100),
-      ).subscribe({
-        next: (s) => {
-          console.log(s);
-          // window.alert("Cat didn't make it! You lose!");
-          // window.location.reload();
-        },
-        complete: () => console.log('complete!'),
+      ).subscribe(() => {
+        window.alert("Cat didn't make it! You lose!");
+        window.location.reload();
       });
   </script>
 </body>
