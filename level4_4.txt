@@ -1,0 +1,7 @@
+marble level4_4
+{
+    source "timer(0, 1000)": +-0-1-2-3-4-5-6->
+    operator "map(t => 5 - t)": +-5-4-3-2-1-0-(-1)->
+    operator "takeWhile(t => t >= 0)": +-5-4-3-2-1->
+    operator "takeUntil(cancelCountdown$)": +-5-4-3-|
+}

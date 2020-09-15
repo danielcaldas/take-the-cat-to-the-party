@@ -9,31 +9,29 @@
   <div id="app"></div>
   <script>
     const {
-      map,
-      filter,
-      takeWhile,
-      takeUntil,
-      tap,
-      repeat,
-      mapTo,
       delay,
-      switchMapTo,
+      filter,
+      map,
+      mapTo,
+      switchMap,
+      takeUntil,
+      takeWhile,
+      tap,
       withLatestFrom,
-      take,
-      last
     } = window.rxjs.operators;
     const {
       fromEvent,
       merge,
-      timer
+      timer,
     } = window.rxjs;
 
-    // please ignore this code for now this is preventing the default event on dragover
-    // so that we're allow to drop an element
+    // preventing the default event on dragover
+    // so that we're allowed to drop an element
     fromEvent(document, "dragover")
-      .pipe(tap(e => e.preventDefault()))
+      .pipe(tap(event => event.preventDefault()))
       .subscribe();
-    // our markup
+
+    // all the game markup goes here
     document.getElementById("app").innerHTML = `
       <h2>Take the 🐈 to the 🎉</h2>
       <div id="loader" style="display:none;position:absolute;right:0;z-index:-1;">
@@ -46,52 +44,35 @@
       <img id="cat" draggable="true" src="https://image.shutterstock.com/image-vector/vintage-scooter-cat-cool-stuff-260nw-429646657.jpg" width="100" height="100" style="position:absolute;z-index:1;margin:18px 16px;text-align:center;cursor:grab;"/>
       <div id="decoy" draggable="true" style="font-size:28px;position:absolute;left:20px;bottom:10px;text-align:center;cursor:grab;font-weight:bold;">DECOY</div>
     `;
+
     // our DOM elements
     const cat = document.getElementById("cat");
     const party = document.getElementById("drop-zone");
     const loading = document.getElementById("loader");
     const countdown = document.getElementById("countdown");
 
-    // auxiliary functions, they mostly abstract simple manipulations to our DOM elements
-    const catEntersTheParty = () => {
-      cat.remove();
-      party.appendChild(cat);
-    };
-    const announceCatArrival = () => {
-      window.alert("Cat is at the party! You win!");
-      window.location.reload();
-    };
-    const toggleGIFVisibility = v => loading.style.setProperty("display", v);
-    const setCatOpacity = v => cat.style.opacity = v;
-    const announceCatDidNotMakeIt = () => {
-      window.alert("Cat didn't make it! You lose!");
-      window.location.reload();
-    };
-    const isCatOutOfTime = secondsLeft => secondsLeft === 0;
-    const tickCountdown = secondsLeft => {
-      countdown.innerText = `${secondsLeft}`;
-    };
-
     // common streams
-    const ds$ = fromEvent(document, "dragstart");
-    const de$ = fromEvent(document, "dragend");
+    const dragstart$ = fromEvent(document, "dragstart");
+    const dragend$ = fromEvent(document, "dragend");
     const drop$ = fromEvent(document, "drop");
 
+    // give it a go!
+
     // LEVEL 1
-    // 1. We should be able to take the cat to the party with drag&drop.
-    // 1.1. Place the cat inside the party together with other cats
-    // 1.2. We also want to hide the original cat element when we're dragging it to the party
+    // 1. We should be able to take the cat to the party by dragging it.
+    //   a. Place the cat inside the party together with other cats.
+    //   b. We also want to hide/remove the original cat element when we're dropping the cat at the party.
 
     // LEVEL 2
-    // 2. We should announce the cats arrival with an alert.
-    // 2.1 Allow cat to enter the party before announcing it
+    // 1. We should announce the cats' arrival with a window.alert message.
+    //   a. Before triggering the window.alert we'll want to make sure the cat is actually rendered at the party.
 
     // LEVEL 3
-    // 3. We want to display a GIF while cat is moving.
+    // 1. We want to display a GIF while the cat is moving.
 
     // LEVEL 4
     // 4. The cat needs to make it to the party in less than 5 seconds!
-    // he only has 5 seconds of gas in his bike.
+    // The cat only has 5 seconds of gas in his bike.
     // 4.1 🤔 Hmm... We still see the alert but we are not dragging the cat?
     // 4.2 🤔 Hmm... something is wrong with the countdown?
   </script>
