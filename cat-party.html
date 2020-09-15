@@ -14,8 +14,8 @@
       map,
       mapTo,
       switchMap,
-      take,
       takeUntil,
+      takeWhile,
       tap,
       withLatestFrom,
     } = window.rxjs.operators;
@@ -110,7 +110,7 @@
     const cancelCountdown$ = merge(catDragEnd$, catAtParty$);
     const countdown$ = timer(0, 1000).pipe(
       map(t => 5 - t),
-      take(5 + 1), // emit one more (5+1) seconds so that we get to 0
+      takeWhile(t => t >= 0),
       takeUntil(cancelCountdown$)
     );
     const countdownRunning$ = catDragStart$.pipe(switchMap((event) => countdown$));
