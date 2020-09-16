@@ -1,6 +1,6 @@
 # take-the-cat-to-the-party
 
-📝 <a href="https://goodguydaniel com/blog/hands-on-reactive-programming-rxjs" target="_blank" title="Hands-on Reactive Programming with RxJS | goodguydaniel.com">Hands-on Reactive Programming with RxJS</a>
+📝 <a href="https://goodguydaniel.com/blog/hands-on-reactive-programming-rxjs" target="_blank" title="Hands-on Reactive Programming with RxJS | goodguydaniel.com">Hands-on Reactive Programming with RxJS</a>
 
 ___
 
